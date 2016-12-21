@@ -200,18 +200,27 @@ public class MSprite : MonoBehaviour
     {
         // Deseleccionamos
         arrastrando = false;
+        ActualizarEstadoPos();
     }
 
-    private void ActualizarEstadoPos()
+    /// <summary>
+    /// <para>Actualiza la posicion de los sprite</para>
+    /// </summary>
+    private void ActualizarEstadoPos()// Actualiza la posicion de los sprite
     {
+        // Seleccionamos el elemento
         for (int n = 0; n < elementos.Count; n++)
         {
+            // Comprueba si son arrastrables
             if (elementos[n].arrastable == true)
             {
+                // Si la posicion del sprite es menos a la de la posicion final en x mas el desfase
                 if (elementos[n].prefab.transform.position.x <= elementos[n].posFinal.position.x + elementos[n].desfase)
                 {
+                    // Si la posicion del sprite es menos a la de la posicion final en y mas el desfase
                     if (elementos[n].prefab.transform.position.y <= elementos[n].posFinal.position.y + elementos[n].desfase)
                     {
+                        // El sprite se coloca en la posicion final
                         elementos[n].prefab.transform.position = elementos[n].posFinal.position;
                     }
                 }
