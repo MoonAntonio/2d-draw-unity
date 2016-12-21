@@ -16,6 +16,8 @@ using System.Collections.Generic;
 public class MSprite : MonoBehaviour 
 {
     public List<clsSprite> elementos = new List<clsSprite>();
+    public Vector3 dist;
+    public Vector2 cordenadas;
 
     public void Start()
     {
