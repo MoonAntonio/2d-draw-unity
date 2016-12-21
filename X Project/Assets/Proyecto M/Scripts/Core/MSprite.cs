@@ -15,6 +15,10 @@ using System.Collections.Generic;
 
 public class MSprite : MonoBehaviour 
 {
+    #region Variables Estaticas
+    public static bool arrastrando;
+    #endregion
+
     #region Variables Publicas
     public List<clsSprite> elementos = new List<clsSprite>();
     #endregion
@@ -24,7 +28,6 @@ public class MSprite : MonoBehaviour
     private Vector3 nuevoCentroSprite;
     private Vector3 posTouch;
     private Vector3 offSet;
-    private bool arrastrando;
     private RaycastHit hit;
     #endregion
 
@@ -74,7 +77,7 @@ public class MSprite : MonoBehaviour
             // Fases del touch
             switch (touch.phase)
             {
-                #region Estados Touch
+        #region Estados Touch
                 // Cuando haces el touch
                 case TouchPhase.Began:
                     TouchBaja(touch);
@@ -94,7 +97,7 @@ public class MSprite : MonoBehaviour
                 default:
                     Debug.LogWarning("[Advertencia]: La fase del touch no es la correcta.");
                     break;
-                    #endregion
+        #endregion
 
             }
         }
