@@ -1,16 +1,6 @@
-﻿//                                  ┌∩┐(◣_◢)┌∩┐
-//                                                                              \\
-// MSprite.cs (00/00/0000)													    \\
-// Autor: Antonio Mateo (Moon Pincho) 									        \\
-// Descripcion:																	\\
-// Fecha Mod:		00/00/0000													\\
-// Ultima Mod:																	\\
-//******************************************************************************\\
-
-#region Librerias
+﻿#region Librerias
 using UnityEngine;
 using System.Collections.Generic;
-
 #endregion
 
 public class MSprite : MonoBehaviour 
@@ -71,7 +61,8 @@ public class MSprite : MonoBehaviour
             MouseSuelta();
         }
         #endregion
-#else
+#endif
+#if UNITY_ANDROID
         foreach (Touch touch in Input.touches)
         {
             // Fases del touch
@@ -106,7 +97,10 @@ public class MSprite : MonoBehaviour
     #endregion
 
     #region API
-    private void MouseBaja()
+    /// <summary>
+    /// <paraz>Cuando el mouse baja</paraz>
+    /// </summary>
+    private void MouseBaja()// Cuando el mouse baja
     {
         // Crear el ray
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -127,7 +121,10 @@ public class MSprite : MonoBehaviour
         }
     }
 
-    private void Mouse()
+    /// <summary>
+    /// <para>Cuando el mouse esta bajado</para>
+    /// </summary>
+    private void Mouse()// Cuando el mouse esta bajado
     {
         // Si se esta arrastrando el sprite
         if (arrastrando == true)
@@ -143,13 +140,21 @@ public class MSprite : MonoBehaviour
         }
     }
 
-    private void MouseSuelta()
+    /// <summary>
+    /// <para>Cuando se suelta el mouse</para>
+    /// </summary>
+    private void MouseSuelta()// Cuando se suelta el mouse
     {
         // Deseleccionamos
         arrastrando = false;
+        ActualizarEstadoPos();
     }
 
-    private void TouchBaja(Touch t)
+    /// <summary>
+    /// <para>Cuando el touch baja</para>
+    /// </summary>
+    /// <param name="t">El touch</param>
+    private void TouchBaja(Touch t)// Cuando el touch baja
     {
         // Crear el ray
         Ray ray = Camera.main.ScreenPointToRay(t.position);
@@ -169,7 +174,10 @@ public class MSprite : MonoBehaviour
         }
     }
 
-    private void Touch()
+    /// <summary>
+    /// <para>Cuando el touch esta bajado</para>
+    /// </summary>
+    private void Touch()// Cuando el touch esta bajado
     {
         // Si se esta arrastrando el sprite
         if (arrastrando)
@@ -185,10 +193,30 @@ public class MSprite : MonoBehaviour
         }
     }
 
-    private void TouchSuelta()
+    /// <summary>
+    /// <para>Cuando se suelta el touch</para>
+    /// </summary>
+    private void TouchSuelta()// Cuando se suelta el touch
     {
         // Deseleccionamos
         arrastrando = false;
+    }
+
+    private void ActualizarEstadoPos()
+    {
+        for (int n = 0; n < elementos.Count; n++)
+        {
+            if (elementos[n].arrastable == true)
+            {
+                if (elementos[n].prefab.transform.position.x <= elementos[n].posFinal.position.x + elementos[n].desfase)
+                {
+                    if (elementos[n].prefab.transform.position.y <= elementos[n].posFinal.position.y + elementos[n].desfase)
+                    {
+                        elementos[n].prefab.transform.position = elementos[n].posFinal.position;
+                    }
+                }
+            }
+        }
     }
     #endregion
 }
