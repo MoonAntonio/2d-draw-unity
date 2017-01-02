@@ -1,4 +1,4 @@
-[![GitHub issues](https://img.shields.io/github/issues/lPinchol/2d-draw-unity.svg?style=plastic)](https://github.com/lPinchol/2d-draw-unity/issues)[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg?style=plastic)](https://raw.githubusercontent.com/lPinchol/2d-draw-unity/master/LICENSE)[![Github All Releases](https://img.shields.io/github/downloads/atom/atom/total.svg?style=plastic)]()
+[![GitHub issues](https://img.shields.io/github/issues/lPinchol/2d-draw-unity.svg?style=plastic)](https://github.com/lPinchol/2d-draw-unity/issues)[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg?style=plastic)](https://raw.githubusercontent.com/lPinchol/2d-draw-unity/master/LICENSE)[![Github All Releases](https://img.shields.io/github/downloads/atom/atom/total.svg?style=plastic)](https://github.com/lPinchol/2d-draw-unity/archive/master.zip)
 ---
 # 2d Draw Unity
 ---
