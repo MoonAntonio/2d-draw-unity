@@ -11,5 +11,19 @@ public class clsSprite : MonoBehaviour
     public GameObject prefab;
     public Transform posFinal;
     public float desfase;
+    public ValorInicialX valorX;
+    public ValorInicialY valorY;
     #endregion
+}
+
+public enum ValorInicialX
+{
+    positivo,
+    negativo,
+}
+
+public enum ValorInicialY
+{
+    positivo,
+    negativo,
 }

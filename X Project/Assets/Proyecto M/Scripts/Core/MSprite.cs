@@ -19,6 +19,7 @@ public class MSprite : MonoBehaviour
     private Vector3 posTouch;
     private Vector3 offSet;
     private RaycastHit hit;
+    private int idSeleccion;
     #endregion
 
     #region Inicializadores
@@ -108,12 +109,12 @@ public class MSprite : MonoBehaviour
         // Si el ray choca con el collider
         if (Physics.Raycast(ray, out hit))
         {
-            // Seleccionamos el elemento
-            for (int i = 0; i < elementos.Count; i++)
+            // Asignamos los componentes y variables
+            idSeleccion = hit.collider.gameObject.GetComponent<clsSprite>().id;
+            if (elementos[idSeleccion].arrastable == true)
             {
-                // Asignamos los componentes y variables
-                elementos[i].prefab = hit.collider.gameObject;
-                centroSprite = elementos[i].prefab.transform.position;
+                elementos[idSeleccion].prefab = hit.collider.gameObject;
+                centroSprite = elementos[idSeleccion].prefab.transform.position;
                 posTouch = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                 offSet = posTouch - centroSprite;
                 arrastrando = true;
@@ -127,16 +128,12 @@ public class MSprite : MonoBehaviour
     private void Mouse()// Cuando el mouse esta bajado
     {
         // Si se esta arrastrando el sprite
-        if (arrastrando == true)
+        if (arrastrando == true && elementos[idSeleccion].arrastable == true)
         {
-            // Seleccionamos el elemento
-            for (int i = 0; i < elementos.Count; i++)
-            {
-                // Asignamos la nueva posicion
-                posTouch = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                nuevoCentroSprite = posTouch - offSet;
-                elementos[i].prefab.transform.position = new Vector3(nuevoCentroSprite.x, nuevoCentroSprite.y, centroSprite.z);
-            }
+            // Asignamos la nueva posicion
+            posTouch = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            nuevoCentroSprite = posTouch - offSet;
+            elementos[idSeleccion].prefab.transform.position = new Vector3(nuevoCentroSprite.x, nuevoCentroSprite.y, centroSprite.z);
         }
     }
 
@@ -147,7 +144,9 @@ public class MSprite : MonoBehaviour
     {
         // Deseleccionamos
         arrastrando = false;
+        ActualizarValores();
         ActualizarEstadoPos();
+        idSeleccion = 0;
     }
 
     /// <summary>
@@ -162,14 +161,15 @@ public class MSprite : MonoBehaviour
         // Si el ray choca con el collider
         if (Physics.SphereCast(ray, 0.3f, out hit))
         {
-            // Seleccionamos el elemento
-            for (int n = 0; n < elementos.Count; n++)
+            // Asignamos los componentes y variables
+            idSeleccion = hit.collider.gameObject.GetComponent<clsSprite>().id;
+            if (elementos[idSeleccion].arrastable == true)
             {
-                // Asignamos los componentes y variables
-                elementos[n].prefab = hit.collider.gameObject;
-                centroSprite = elementos[n].prefab.transform.position;
+                elementos[idSeleccion].prefab = hit.collider.gameObject;
+                centroSprite = elementos[idSeleccion].prefab.transform.position;
                 posTouch = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                 offSet = posTouch - centroSprite;
+                arrastrando = true;
             }
         }
     }
@@ -180,16 +180,12 @@ public class MSprite : MonoBehaviour
     private void Touch()// Cuando el touch esta bajado
     {
         // Si se esta arrastrando el sprite
-        if (arrastrando)
+        if (arrastrando == true && elementos[idSeleccion].arrastable == true)
         {
-            // Seleccionamos el elemento
-            for (int n = 0; n < elementos.Count; n++)
-            {
-                // Asignamos la nueva posicion
-                posTouch = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                nuevoCentroSprite = posTouch - offSet;
-                elementos[n].prefab.transform.position = new Vector3(nuevoCentroSprite.x, nuevoCentroSprite.y, centroSprite.z);
-            }
+            // Asignamos la nueva posicion
+            posTouch = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            nuevoCentroSprite = posTouch - offSet;
+            elementos[idSeleccion].prefab.transform.position = new Vector3(nuevoCentroSprite.x, nuevoCentroSprite.y, centroSprite.z);
         }
     }
 
@@ -200,7 +196,9 @@ public class MSprite : MonoBehaviour
     {
         // Deseleccionamos
         arrastrando = false;
+        ActualizarValores();
         ActualizarEstadoPos();
+        idSeleccion = 0;
     }
 
     /// <summary>
@@ -208,23 +206,95 @@ public class MSprite : MonoBehaviour
     /// </summary>
     private void ActualizarEstadoPos()// Actualiza la posicion de los sprite
     {
-        // Seleccionamos el elemento
-        for (int n = 0; n < elementos.Count; n++)
+        // Comprueba si son arrastrables
+        if (elementos[idSeleccion].arrastable == true)
         {
-            // Comprueba si son arrastrables
-            if (elementos[n].arrastable == true)
+            // Si x es positivo
+            if (elementos[idSeleccion].valorX == ValorInicialX.positivo)
             {
                 // Si la posicion del sprite es menos a la de la posicion final en x mas el desfase
-                if (elementos[n].prefab.transform.position.x <= elementos[n].posFinal.position.x + elementos[n].desfase)
+                if (elementos[idSeleccion].prefab.transform.position.x <= elementos[idSeleccion].posFinal.position.x + elementos[idSeleccion].desfase)
                 {
-                    // Si la posicion del sprite es menos a la de la posicion final en y mas el desfase
-                    if (elementos[n].prefab.transform.position.y <= elementos[n].posFinal.position.y + elementos[n].desfase)
+                    // Si y es positivo
+                    if (elementos[idSeleccion].valorY == ValorInicialY.positivo)
                     {
-                        // El sprite se coloca en la posicion final
-                        elementos[n].prefab.transform.position = elementos[n].posFinal.position;
+                        // Si la posicion del sprite es menos a la de la posicion final en y mas el desfase
+                        if (elementos[idSeleccion].prefab.transform.position.y >= elementos[idSeleccion].posFinal.position.y + elementos[idSeleccion].desfase)
+                        {
+                            // El sprite se coloca en la posicion final
+                            elementos[idSeleccion].prefab.transform.position = elementos[idSeleccion].posFinal.position;
+                            elementos[idSeleccion].arrastable = false;
+                            idSeleccion = 0;
+                        }
+                    }
+                    else
+                    {
+                        // Si la posicion del sprite es menos a la de la posicion final en y mas el desfase
+                        if (elementos[idSeleccion].prefab.transform.position.y <= elementos[idSeleccion].posFinal.position.y - elementos[idSeleccion].desfase)
+                        {
+                            // El sprite se coloca en la posicion final
+                            elementos[idSeleccion].prefab.transform.position = elementos[idSeleccion].posFinal.position;
+                            elementos[idSeleccion].arrastable = false;
+                            idSeleccion = 0;
+                        }
                     }
                 }
             }
+            else
+            {
+                // Si la posicion del sprite es menos a la de la posicion final en x mas el desfase
+                if (elementos[idSeleccion].prefab.transform.position.x <= elementos[idSeleccion].posFinal.position.x - elementos[idSeleccion].desfase)
+                {
+                    // Si y es positivo
+                    if (elementos[idSeleccion].valorY == ValorInicialY.positivo)
+                    {
+                        // Si la posicion del sprite es menos a la de la posicion final en y mas el desfase
+                        if (elementos[idSeleccion].prefab.transform.position.y >= elementos[idSeleccion].posFinal.position.y + elementos[idSeleccion].desfase)
+                        {
+                            // El sprite se coloca en la posicion final
+                            elementos[idSeleccion].prefab.transform.position = elementos[idSeleccion].posFinal.position;
+                            elementos[idSeleccion].arrastable = false;
+                            idSeleccion = 0;
+                        }
+                    }
+                    else
+                    {
+                        // Si la posicion del sprite es menos a la de la posicion final en y mas el desfase
+                        if (elementos[idSeleccion].prefab.transform.position.y <= elementos[idSeleccion].posFinal.position.y - elementos[idSeleccion].desfase)
+                        {
+                            // El sprite se coloca en la posicion final
+                            elementos[idSeleccion].prefab.transform.position = elementos[idSeleccion].posFinal.position;
+                            elementos[idSeleccion].arrastable = false;
+                            idSeleccion = 0;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    /// <summary>
+    /// <para>Actualiza los valores positivos o negativos</para>
+    /// </summary>
+    private void ActualizarValores()// Actualiza los valores positivos o negativos
+    {
+        // Condicion en X
+        if (elementos[idSeleccion].prefab.transform.position.x < 0)
+        {
+            elementos[idSeleccion].valorX = ValorInicialX.negativo;
+        } else
+        {
+            elementos[idSeleccion].valorX = ValorInicialX.positivo;
+        }
+
+        // Condicion en Y
+        if (elementos[idSeleccion].prefab.transform.position.y < 0)
+        {
+            elementos[idSeleccion].valorY = ValorInicialY.negativo;
+        }
+        else
+        {
+            elementos[idSeleccion].valorY = ValorInicialY.positivo;
         }
     }
     #endregion

@@ -284,11 +284,15 @@ Prefab:
     - target: {fileID: 114001925123849762, guid: ae7e95a7a1db0bf4eadf762259d674ad,
         type: 2}
       propertyPath: desfase
-      value: 1
+      value: 0.01
       objectReference: {fileID: 0}
     - target: {fileID: 4221813307368728, guid: ae7e95a7a1db0bf4eadf762259d674ad, type: 2}
       propertyPath: m_LocalPosition.y
-      value: -0.9
+      value: -1.41
+      objectReference: {fileID: 0}
+    - target: {fileID: 4221813307368728, guid: ae7e95a7a1db0bf4eadf762259d674ad, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: -5.28
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ae7e95a7a1db0bf4eadf762259d674ad, type: 2}
