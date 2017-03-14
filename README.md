@@ -4,7 +4,7 @@
 ---
 ¿Que es?
 
-<center>![Preview][1]</center>
+![Preview][1]
 
 ---
 
